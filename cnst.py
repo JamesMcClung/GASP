@@ -12,3 +12,6 @@ TRIANGLE = 2
 
 RED = 'red'
 BLUE = 'blue'
+
+WINHEIGHT = 500
+WINWIDTH = 400

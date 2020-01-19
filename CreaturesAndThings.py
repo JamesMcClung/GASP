@@ -7,12 +7,11 @@ Created on Sat Jan 18 14:08:56 2020
 """
 from cnst import *
 import GUI
+import random
 
 class Thing():
     def __init__(self, **args):
         #kwargs x, y, th, crossable, shape, length, width
-        self.x = args.get("x", 0)
-        self.y = args.get("y", 0)
         self.th = args.get("th", 0)
         self.length = args.get("length", 20)
         self.width = args.get("width", 20)
@@ -21,11 +20,19 @@ class Thing():
         self.colorFill = args.get("colorFill", RED)
         self.colorOutline = args.get("colorOutline", BLUE)
         self.shape = args.get("shape", CIRCLE)
-        self.gobject = GUI.makeGraphicsObject(self.colorFill, self.colorOutline, self.shape, self.size, self.x, self.y)
         self.exists = True
+        self.x = args.get("x", random.randint(0,WINWIDTH))
+        self.y = args.get("y", random.randint(0,WINHEIGHT))
+        
+        self.gobject = GUI.makeGraphicsObject(self.colorFill, self.colorOutline, self.shape, self.size, self.x, self.y)
             
     def intersects(self, thing):
-        pass
+        return abs(thing.x-self.x) < 5 and abs(thing.y-self.y) < 5
+    
+    def updateGobject(self):
+        self.gobject.undraw()
+        self.gobject = GUI.makeGraphicsObject(self.colorFill, self.colorOutline, self.shape, self.size, self.x, self.y)
+        GUI.drawAllIn([self])
 
 class Tickable(Thing):
     
@@ -71,8 +78,9 @@ class Creature(Tickable):
     
     def getWorld(self):
         return self.environment
-    
 
+    def isWalkable(self, x, y):
+        return x >= 0 and x <= WINWIDTH and y >= 0 and y <= WINHEIGHT
      
 class exampleCreature(Creature):
     pass

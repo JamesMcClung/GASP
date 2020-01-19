@@ -11,12 +11,15 @@ import CreaturesAndThings as t
 
 start = False
 
-def begin(height, width):
+def begin():
     global start, win
     start = True
-    win  = GraphWin('GASP', width, height)
+    win  = GraphWin('GASP', WINWIDTH, WINHEIGHT)
     
 def makeGraphicsObject(colorFill, colorOutline, shape, size, x, y):
+    if not start:
+        print("Error: graphics not started before trying to rendor")
+        return
     pt = Point(x, y)
     if shape == CIRCLE:
         img = Circle(pt, *size)
@@ -26,14 +29,13 @@ def makeGraphicsObject(colorFill, colorOutline, shape, size, x, y):
     img.setFill(colorFill)
     return img
 
-def updateAll(things):
-    if not start:
-        print("Error: graphics not started before trying to rendor")
-        return
+def forceUpdate():
+    update()
     
+def drawAllIn(things):
     for thing in things:
         thing.gobject.draw(win)
-        
+
 def waitForClick():
     win.getMouse()
         

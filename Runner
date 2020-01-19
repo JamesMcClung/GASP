@@ -13,20 +13,41 @@ import foxAndRabbit as population
 
 things = []
 
+GUI.begin()
+
 for i in range(10):
     things.append(population.Rabbit())
     
 for i in range(2):
     things.append(population.Fox())
-
-GUI.begin(500, 400)
-GUI.updateAll(things)
+    
+GUI.drawAllIn(things)
     
 for i in range(1000):
     for thing in things:
-        thing.tick(0,0)
-#    GUI.updateAll
-    time.sleep(.1)
+        if not thing.exists:
+            things.remove(thing)
+            thing.gobject.undraw()
+        else:
+            thing.tick(0,0)
+    newThings = []
+    for i in range(0,len(things)):
+        for j in range(i+1, len(things)):
+            if things[i].intersects(things[j]):
+                r1 = things[i].meetThing(things[j])
+                r2 = things[j].meetThing(things[i])
+                if type(r1) == type(r2):
+                    None if not r1 else newThings.append(r1)
+                else:
+                    None if not r1 else newThings.append(r1)
+                    None if not r2 else newThings.append(r2)
+                    
+    GUI.drawAllIn(newThings)
+    things += newThings
+    
+#    GUI.forceUpdate()
+    
+    time.sleep(.01)
     
 GUI.waitForClick()
 GUI.close()
