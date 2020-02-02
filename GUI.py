@@ -38,6 +38,9 @@ def drawAllIn(things):
 
 def waitForClick():
     win.getMouse()
+    
+def checkClick():
+    win.checkMouse()
         
 def close():
     win.close()

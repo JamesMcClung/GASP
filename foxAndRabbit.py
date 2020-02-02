@@ -25,14 +25,6 @@ class Rabbit(framework):
         turn = random.random() < .1
         maxSpeed = self.traits["speed"]
         
-        #if the point is walkable, the thing should move there
-        if self.isWalkable(self.x+self.dx, self.y+self.dy):
-            self.gobject.move(self.dx, self.dy)
-            self.x += self.dx
-            self.y += self.dy
-        else: 
-            turn = True
-        
         #if take a random turn, pick a random new angle
         if turn:
             self.angle = random.random() * 2 * pi
@@ -41,6 +33,14 @@ class Rabbit(framework):
         self.angle += (random.random()-.5)
         self.dx = maxSpeed * cos(self.angle)
         self.dy = maxSpeed * sin(self.angle)
+        
+        #if the point is walkable, the thing should move there
+        if self.isWalkable(self.x+self.dx, self.y+self.dy):
+            self.gobject.move(self.dx, self.dy)
+            self.x += self.dx
+            self.y += self.dy
+        else: 
+            self.angle += pi
         
     def tick(self, dt, environment):
         self.walk()
@@ -83,6 +83,8 @@ class Fox(framework):
             self.gobject.move(self.dx, self.dy)
             self.x += self.dx
             self.y += self.dy
+        else:
+            self.angle+= pi
         
     def tick(self, dt, environment):
         self.walk()

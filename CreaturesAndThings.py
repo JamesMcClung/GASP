@@ -17,8 +17,8 @@ class Thing():
         self.width = args.get("width", 20)
         self.size = args.get("size", [20])
         self.crossable = args.get("crossable", False)
-        self.colorFill = args.get("colorFill", RED)
-        self.colorOutline = args.get("colorOutline", BLUE)
+        self.colorFill = args.get("colorFill", 'red')
+        self.colorOutline = args.get("colorOutline", 'blue')
         self.shape = args.get("shape", CIRCLE)
         self.exists = True
         self.x = args.get("x", random.randint(0,WINWIDTH))
@@ -58,8 +58,14 @@ class Creature(Tickable):
         for key, val in traits.items():
             self.traits[key] = val
             
+    def start(self):
+        pass
+    
     def tick(self, dt, environment):
         super().tick(dt, environment)
+        
+    def end(self):
+        pass
    
     def meetThing(self, other):
         pass
@@ -78,7 +84,7 @@ class Creature(Tickable):
     
     def getWorld(self):
         return self.environment
-
+    
     def isWalkable(self, x, y):
         return x >= 0 and x <= WINWIDTH and y >= 0 and y <= WINHEIGHT
      
